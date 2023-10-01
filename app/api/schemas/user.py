@@ -10,5 +10,5 @@ class UserModel(BaseModel):
     age: Annotated[int, Query(gt=18)]
 
 
-class UserInputModel(UserModel):
+class UserCreate(UserModel):
     password: str
