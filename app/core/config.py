@@ -7,9 +7,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
-    TESTING: bool = False
 
-    model_config = SettingsConfigDict(env_file="app/core/.env")  # check working directory in Run/Debug Configuration
+    model_config = SettingsConfigDict(env_file=r"app\core\.env")  # check working directory in Run/Debug Configuration
 
 
 settings = Settings()
