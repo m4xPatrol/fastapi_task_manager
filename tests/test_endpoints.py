@@ -10,7 +10,6 @@ def auth_header():
     return {"Authorization": f"Bearer {jwt_token}"}
 
 
-@pytest.mark.anyio
 async def test_async_create_user(async_client: AsyncClient):
     response = await async_client.post("/register", json={"username": "test123456",
                                                           "full_name": "Test User",
@@ -23,7 +22,6 @@ async def test_async_create_user(async_client: AsyncClient):
     assert "password" not in response.json()
 
 
-@pytest.mark.anyio
 async def test_login(async_client: AsyncClient):
     global jwt_token
 
@@ -36,7 +34,6 @@ async def test_login(async_client: AsyncClient):
     assert response.json().get("token_type") == "bearer"
 
 
-@pytest.mark.anyio
 async def test_read_user(async_client: AsyncClient):
     response = await async_client.get("/about_me", headers=auth_header())
     assert response.status_code == 200
@@ -45,7 +42,6 @@ async def test_read_user(async_client: AsyncClient):
     assert response.json()["email"] == "test123456@test3.com"
 
 
-@pytest.mark.anyio
 async def test_create_task(async_client: AsyncClient):
     global task_id
     response = await async_client.post("/tasks", headers=auth_header(), json={"title": "Test Title",
@@ -58,7 +54,6 @@ async def test_create_task(async_client: AsyncClient):
     assert response.json()["description"] == "12345"
 
 
-@pytest.mark.anyio
 async def test_read_task(async_client: AsyncClient):
     response = await async_client.get(f"/tasks/{task_id}", headers=auth_header())
     assert response.json()["title"] == "Test Title"
@@ -66,7 +61,6 @@ async def test_read_task(async_client: AsyncClient):
     assert response.json()["completed"] is False
 
 
-@pytest.mark.anyio
 async def test_read_tasks(async_client: AsyncClient):
     response = await async_client.get("/tasks", headers=auth_header())
     testing_task = [task for task in response.json() if task["id"] == task_id][0]
@@ -75,7 +69,6 @@ async def test_read_tasks(async_client: AsyncClient):
     assert testing_task["completed"] is False
 
 
-@pytest.mark.anyio
 async def test_update_task(async_client: AsyncClient):
     response = await async_client.put(f"/tasks/{task_id}", headers=auth_header(), json={"title": "Test Title",
                                                                                         "description": "12345",
@@ -87,7 +80,6 @@ async def test_update_task(async_client: AsyncClient):
     pass
 
 
-@pytest.mark.anyio
 async def test_delete_task(async_client: AsyncClient):
     response = await async_client.delete(f"tasks/{task_id}", headers=auth_header())
     assert response.json()["title"] == "Test Title"
