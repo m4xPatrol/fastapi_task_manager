@@ -1,13 +1,14 @@
-from typing import Any
+from typing import Annotated
 
-from sqlalchemy.orm import as_declarative, declared_attr
+from sqlalchemy.orm import declared_attr
+from sqlalchemy.orm import DeclarativeBase,mapped_column
 
 
-@as_declarative()
-class Base(object):
-    id: Any
-    __name__: str
+class Base(DeclarativeBase):
 
     @declared_attr
     def __tablename__(cls) -> str:
         return cls.__name__.lower()
+
+
+int_pk = Annotated[int, mapped_column(primary_key=True)]
