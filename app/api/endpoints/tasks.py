@@ -4,14 +4,11 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.websockets import WebSocket, WebSocketDisconnect
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
 from app.api.schemas.task import TaskCreate, TaskUpdate, TaskResponse
 from app.db.database import get_session
-from app.db.models.task import Task
-from app.db.models.user import User
-from app.core.security import get_user_by_token
+from app.core.jwt import get_user_by_token
 from app.db.crud.user import user_crud
 from app.db.crud.task import task_crud
 
