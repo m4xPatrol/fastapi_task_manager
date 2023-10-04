@@ -6,7 +6,7 @@ from fastapi import FastAPI, Depends, Request
 from fastapi.responses import JSONResponse
 
 from app.api.endpoints import tasks, users
-from app.core.security import get_user_by_token
+from app.core.jwt import get_user_by_token
 from app.db.database import init_db
 
 
