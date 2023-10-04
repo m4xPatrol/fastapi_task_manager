@@ -1,14 +1,18 @@
-from sqlalchemy import Column, Integer, String, LargeBinary
-from sqlalchemy.orm import relationship
+from typing import Annotated
 
-from app.db.models.base import Base
+from sqlalchemy.orm import relationship, mapped_column, Mapped
+
+from app.db.models.base import Base, int_pk
+
+
+unique_str_k = Annotated[str, mapped_column(unique=True, nullable=False)]
 
 
 class User(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    full_name = Column(String, index=True)
-    email = Column(String, unique=True, index=True, nullable=True)
-    age = Column(Integer)
-    hashed_password = Column(LargeBinary)
-    tasks = relationship("Task", back_populates="owner")
+    id: Mapped[int_pk]
+    username: Mapped[unique_str_k]
+    full_name: Mapped[str]
+    email: Mapped[unique_str_k]
+    age: Mapped[int]
+    hashed_password: Mapped[bytes]
+    tasks: Mapped[list["Task"]] = relationship(back_populates="owner")

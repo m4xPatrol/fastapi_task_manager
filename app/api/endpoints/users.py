@@ -8,7 +8,8 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
 from app.api.schemas.user import UserModel, UserCreate
-from app.core.security import get_password_hash, create_access_token, get_user_by_token, verify_password
+from app.core.security import get_password_hash, verify_password
+from app.core.jwt import create_access_token, get_user_by_token
 from app.db.database import get_session
 from app.db.models.user import User
 

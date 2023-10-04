@@ -24,7 +24,7 @@ class UserCRUD:
 
     async def get_user(self, db: AsyncSession, username: str) -> User:
         user = await db.execute(select(User).where(User.username == username))
-        user = user.scalars().first()
+        user = user.scalar_one()
         return user
 
 
