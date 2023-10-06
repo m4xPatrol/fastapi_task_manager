@@ -42,5 +42,3 @@ class LogConfig(BaseModel):
         "uvicorn.error": {"level": LOG_LEVEL, "propagate": True},
         "uvicorn.access": {"handlers": ["access"], "level": LOG_LEVEL, "propagate": False},
     }
-
-

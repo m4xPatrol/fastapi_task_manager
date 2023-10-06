@@ -1,5 +1,5 @@
 from httpx import AsyncClient
-import pytest
+
 
 jwt_token = None
 task_id = None
@@ -77,7 +77,6 @@ async def test_update_task(async_client: AsyncClient):
     assert response.json()["title"] == "Test Title"
     assert response.json()["description"] == "12345"
     assert response.json()["completed"] is True
-    pass
 
 
 async def test_delete_task(async_client: AsyncClient):
@@ -85,4 +84,3 @@ async def test_delete_task(async_client: AsyncClient):
     assert response.json()["title"] == "Test Title"
     assert response.json()["description"] == "12345"
     assert response.json()["completed"] is True
-    pass
