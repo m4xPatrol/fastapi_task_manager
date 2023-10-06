@@ -12,7 +12,7 @@ Task Manager FastAPI is a simple task management API built using FastAPI + Postg
 ### Prerequisites
 Before running the application, make sure you have the following prerequisites installed:
 
-* Python 3.7+ (3.10+ recommended)
+* Python 3.11 (3.10+ recommended)
 * PostgreSQL
 
 ### Installation
