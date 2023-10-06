@@ -67,8 +67,8 @@ async def read_task(task_id: int, db: AsyncSession = Depends(get_session)):
 
 @router.put("/tasks/{task_id}", response_model=TaskResponse)
 async def update_task(task_id: int, task_update: TaskUpdate, db: AsyncSession = Depends(get_session)):
-    db_task_to_update = await task_crud.get_task(db, task_id)
-    db_task = await task_crud.update_task(db, db_task_to_update, task_update)
+    db_task = await task_crud.update_task(db, task_id, task_update)
+
     if db_task is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
 
@@ -83,8 +83,8 @@ async def update_task(task_id: int, task_update: TaskUpdate, db: AsyncSession = 
 
 @router.delete("/tasks/{task_id}", response_model=TaskResponse)
 async def delete_task(task_id: int, db: AsyncSession = Depends(get_session)):
-    db_task_to_delete = await task_crud.get_task(db, task_id)
-    task = await task_crud.delete_task(db, db_task_to_delete)
+    task = await task_crud.delete_task(db, task_id)
+
     if task is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
 

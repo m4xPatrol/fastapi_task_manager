@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from app.api.schemas.task import TaskCreate, TaskUpdate, TaskResponse
+from app.api.schemas.task import TaskCreate, TaskUpdate
 from app.db.models.task import Task
 
 
@@ -29,7 +29,8 @@ class TaskCRUD:
         task = await db.execute(select(Task).where(Task.id == task_id))
         return task.scalars().first()
 
-    async def update_task(self, db: AsyncSession, db_task: Task, task_update: TaskUpdate) -> Task:
+    async def update_task(self, db: AsyncSession, task_id: int, task_update: TaskUpdate) -> Task:
+        db_task = await task_crud.get_task(db, task_id)
         for key, value in task_update.model_dump().items():
             setattr(db_task, key, value)
         try:
@@ -41,8 +42,9 @@ class TaskCRUD:
             await db.rollback()
             raise e
 
-    async def delete_task(self, db: AsyncSession, db_task: Task) -> Task:
+    async def delete_task(self, db: AsyncSession, task_id: int) -> Task:
         try:
+            db_task = await task_crud.get_task(db, task_id)
             await db.delete(db_task)
             await db.commit()
             return db_task
