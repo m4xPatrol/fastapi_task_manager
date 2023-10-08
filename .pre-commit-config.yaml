@@ -24,10 +24,10 @@ repos:
 #    -   id: flake8
 #    additional_dependencies:
 #    -   flake8-bugbear
--   repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-    -   id: isort
+#-   repo: https://github.com/pycqa/isort
+#    rev: 5.12.0
+#    hooks:
+#    -   id: isort
 -   repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.291
     hooks:
