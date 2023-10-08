@@ -1,9 +1,8 @@
 from typing import Annotated
 
-from sqlalchemy.orm import relationship, mapped_column, Mapped
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.models.base import Base, int_pk
-
 
 unique_str_k = Annotated[str, mapped_column(unique=True, nullable=False)]
 

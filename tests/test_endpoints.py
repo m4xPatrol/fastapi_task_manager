@@ -1,6 +1,5 @@
 from httpx import AsyncClient
 
-
 jwt_token = None
 task_id = None
 
@@ -11,11 +10,16 @@ def auth_header():
 
 
 async def test_async_create_user(async_client: AsyncClient):
-    response = await async_client.post("/register", json={"username": "test123456",
-                                                          "full_name": "Test User",
-                                                          "password": "passw0rd",
-                                                          "age": 23,
-                                                          "email": "test123456@test3.com"})
+    response = await async_client.post(
+        "/register",
+        json={
+            "username": "test123456",
+            "full_name": "Test User",
+            "password": "passw0rd",
+            "age": 23,
+            "email": "test123456@test3.com",
+        },
+    )
     assert response.status_code == 200
     assert "username" in response.json()
     assert "email" in response.json()
@@ -25,9 +29,15 @@ async def test_async_create_user(async_client: AsyncClient):
 async def test_login(async_client: AsyncClient):
     global jwt_token
 
-    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
-    response = await async_client.post("/login", data={"username": "test123456", "password": "passw0rd"},
-                                       headers=headers)
+    headers = {
+        "accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    response = await async_client.post(
+        "/login",
+        data={"username": "test123456", "password": "passw0rd"},
+        headers=headers,
+    )
     jwt_token = response.json().get("access_token")
     assert response.status_code == 200
     assert "access_token" in response.json()
@@ -44,8 +54,11 @@ async def test_read_user(async_client: AsyncClient):
 
 async def test_create_task(async_client: AsyncClient):
     global task_id
-    response = await async_client.post("/tasks", headers=auth_header(), json={"title": "Test Title",
-                                                                              "description": "12345"})
+    response = await async_client.post(
+        "/tasks",
+        headers=auth_header(),
+        json={"title": "Test Title", "description": "12345"},
+    )
     assert response.status_code == 200
     assert "id" in response.json()
     task_id = response.json()["id"]
@@ -70,9 +83,11 @@ async def test_read_tasks(async_client: AsyncClient):
 
 
 async def test_update_task(async_client: AsyncClient):
-    response = await async_client.put(f"/tasks/{task_id}", headers=auth_header(), json={"title": "Test Title",
-                                                                                        "description": "12345",
-                                                                                        "completed": True})
+    response = await async_client.put(
+        f"/tasks/{task_id}",
+        headers=auth_header(),
+        json={"title": "Test Title", "description": "12345", "completed": True},
+    )
     assert response.status_code == 200
     assert response.json()["title"] == "Test Title"
     assert response.json()["description"] == "12345"

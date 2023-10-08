@@ -14,13 +14,13 @@ class LogConfig(BaseModel):
             "()": "uvicorn.logging.DefaultFormatter",
             "format": DEFAULT_FORMAT,
             "datefmt": "%Y-%m-%d %H:%M:%S",
-            "use_colors": True
+            "use_colors": True,
         },
         "access": {
             "()": "uvicorn.logging.AccessFormatter",
             "format": ACCESS_FORMAT,
             "datefmt": "%Y-%m-%d %H:%M:%S",
-            "use_colors": True
+            "use_colors": True,
         },
     }
 
@@ -40,5 +40,9 @@ class LogConfig(BaseModel):
     loggers: dict = {
         "uvicorn": {"handlers": ["default"], "level": LOG_LEVEL, "propagate": True},
         "uvicorn.error": {"level": LOG_LEVEL, "propagate": True},
-        "uvicorn.access": {"handlers": ["access"], "level": LOG_LEVEL, "propagate": False},
+        "uvicorn.access": {
+            "handlers": ["access"],
+            "level": LOG_LEVEL,
+            "propagate": False,
+        },
     }

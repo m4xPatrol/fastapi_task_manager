@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr
-from fastapi import Query
 from typing import Annotated
+
+from fastapi import Query
+from pydantic import BaseModel, EmailStr
 
 
 class UserModel(BaseModel):

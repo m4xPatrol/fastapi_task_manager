@@ -17,19 +17,19 @@ Before running the application, make sure you have the following prerequisites i
 
 ### Installation
 1. Clone the repository
-   
+
    ```bash
    git clone https://github.com/m4xPatrol/fastapi_task_manager.git
    cd task_manager_fastapi
    ```
-   
+
 2. Install [Poetry](https://python-poetry.org/docs/#installation)
 3. Create a virtual environment
-   
+
    ```bash
    poetry install
    ```
-   
+
 ## Usage
 ### Running the Application
 
@@ -41,7 +41,7 @@ poetry run python main.py
 ## Testing the application with PyTest
 ### Running the tests
 1. Navigate to the `task_manager_fastapi` (root) directory using a terminal:
-   
+
 ```bash
 cd <your_path_to_project>/task_manager_fastapi
 ```

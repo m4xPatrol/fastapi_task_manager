@@ -1,10 +1,9 @@
 from typing import Annotated
 
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship, mapped_column, Mapped
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.models.base import Base, int_pk
-
 
 user_fk = Annotated[int, mapped_column(ForeignKey("user.id"))]
 
