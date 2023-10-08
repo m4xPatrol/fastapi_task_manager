@@ -3,7 +3,8 @@ Task Manager FastAPI is a simple task management API built using FastAPI + Postg
 
 ## Features:
 * User registration and authentication (OAuth2 + JWT)
-* Real-time updates for task status changes using WebSocket.
+* Real-time updates for task status changes using WebSocket
+* Custom logger
 * Asynchronous routes
 * Asynchronous database access (asyncpg)
 * Easy to installation (poetry)
@@ -12,7 +13,7 @@ Task Manager FastAPI is a simple task management API built using FastAPI + Postg
 ### Prerequisites
 Before running the application, make sure you have the following prerequisites installed:
 
-* Python 3.11 (3.10+ recommended)
+* Python 3.11
 * PostgreSQL
 
 ### Installation
