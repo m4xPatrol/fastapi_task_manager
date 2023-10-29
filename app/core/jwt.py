@@ -20,26 +20,20 @@ oauth2_scheme = CustomOAuth2PasswordBearer(
 )  # check this url?
 
 
-def create_access_token(data: dict) -> str:
+def create_jwt_token(data: dict, token_type: str = "access") -> str:
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_access_token = jwt.encode(
+    if token_type == "access":
+        expire_minutes = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+    elif token_type == "refresh":
+        expire_minutes = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+    else:
+        raise ValueError("Incorrect JWT type (Should be access or refresh)")
+    expire_at = datetime.utcnow() + timedelta(minutes=expire_minutes)
+    to_encode.update({"exp": expire_at})
+    encoded_jwt_token = jwt.encode(
         to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
-    return encoded_access_token
-
-
-def create_refresh_token(data: dict) -> str:
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(
-        minutes=settings.REFRESH_TOKEN_EXPIRE_MINUTES
-    )
-    to_encode.update({"exp": expire})
-    encoded_access_token = jwt.encode(
-        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
-    )
-    return encoded_access_token
+    return encoded_jwt_token
 
 
 def decode_access_token(token: str = Depends(oauth2_scheme)) -> dict:
