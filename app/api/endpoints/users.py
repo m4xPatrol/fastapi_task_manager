@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.schemas.user import UserCreate, UserModel
-from app.core.jwt import create_jwt_token, get_user_by_token
+from app.core.jwt import create_jwt, get_user_by_token
 from app.core.security import verify_password
 from app.db.crud.user import user_crud
 from app.db.database import get_session
@@ -41,7 +41,7 @@ async def login(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    jwt_token = create_jwt_token({"sub": user_db.username}, token_type="access")
+    jwt_token = create_jwt({"sub": user_db.username}, token_type="access")
 
     return {"access_token": jwt_token, "token_type": "bearer"}
 

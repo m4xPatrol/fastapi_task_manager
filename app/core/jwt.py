@@ -20,7 +20,7 @@ oauth2_scheme = CustomOAuth2PasswordBearer(
 )  # check this url?
 
 
-def create_jwt_token(data: dict, token_type: str = "access") -> str:
+def create_jwt(data: dict, token_type: str = "access") -> str:
     to_encode = data.copy()
     if token_type == "access":
         expire_minutes = settings.ACCESS_TOKEN_EXPIRE_MINUTES
@@ -36,7 +36,7 @@ def create_jwt_token(data: dict, token_type: str = "access") -> str:
     return encoded_jwt_token
 
 
-def decode_access_token(token: str = Depends(oauth2_scheme)) -> dict:
+def decode_jwt(token: str = Depends(oauth2_scheme)) -> dict:
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -50,5 +50,5 @@ def decode_access_token(token: str = Depends(oauth2_scheme)) -> dict:
         )
 
 
-def get_user_by_token(payload: dict = Depends(decode_access_token)) -> str:
+def get_user_by_token(payload: dict = Depends(decode_jwt)) -> str:
     return payload.get("sub")
