@@ -24,8 +24,13 @@ class UserCRUD:
             await db.rollback()
             raise e
 
-    async def get_user(self, db: AsyncSession, username: str) -> User:
+    async def get_user_by_username(self, db: AsyncSession, username: str) -> User:
         user = await db.execute(select(User).where(User.username == username))
+        user = user.scalar_one()
+        return user
+
+    async def get_user_by_id(self, db: AsyncSession, user_id: str) -> User:
+        user = await db.execute(select(User).where(User.id == user_id))
         user = user.scalar_one()
         return user
 

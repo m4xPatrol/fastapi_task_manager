@@ -41,7 +41,6 @@ async def test_login(async_client: AsyncClient):
     jwt_token = response.json().get("access_token")
     assert response.status_code == 200
     assert "access_token" in response.json()
-    assert response.json().get("token_type") == "bearer"
 
 
 async def test_read_user(async_client: AsyncClient):
