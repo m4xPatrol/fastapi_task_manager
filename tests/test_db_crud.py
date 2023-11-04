@@ -42,7 +42,7 @@ async def test_add_user():
 
 async def test_get_user():
     async with async_session_maker() as db:
-        crud_result = await user_crud.get_user(db, test_user.username)
+        crud_result = await user_crud.get_user_by_username(db, test_user.username)
         assert crud_result.username == test_user.username
         assert crud_result.full_name == test_user.full_name
         assert crud_result.email == test_user.email

@@ -1,4 +1,5 @@
 from sqlalchemy import select
+from sqlalchemy.engine import ScalarResult
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -17,11 +18,13 @@ class TaskCRUD:
             await db.rollback()
             raise e
 
-    async def get_tasks(self, db: AsyncSession, skip: int, limit: int):
+    async def get_tasks(
+        self, db: AsyncSession, skip: int, limit: int
+    ) -> ScalarResult[Task]:
         tasks = await db.execute(select(Task).offset(skip).limit(limit))
         return tasks.scalars()
 
-    async def get_task(self, db: AsyncSession, task_id: int):
+    async def get_task(self, db: AsyncSession, task_id: int) -> Task:
         task = await db.execute(select(Task).where(Task.id == task_id))
         return task.scalars().first()
 

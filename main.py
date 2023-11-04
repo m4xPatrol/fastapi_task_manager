@@ -21,19 +21,19 @@ app.include_router(users.router, prefix="/api/v1", tags=["Users"])
 
 
 @app.on_event("startup")
-async def on_startup():
+async def on_startup() -> None:
     await init_db()
 
 
 @app.exception_handler(Exception)
-def global_exception_handler(request: Request, exc: Exception):
+def global_exception_handler(request: Request, exc: Exception) -> JSONResponse:
     logger = logging.getLogger("uvicorn.error")
     logger.exception("Global Exception handler raised")
     return JSONResponse(status_code=500, content={"error": "Internal server error"})
 
 
 @app.get("/")
-def read_root():
+def read_root() -> dict[str, str]:
     return {"message": "Welcome to the Real-Time Task Manager API"}
 
 
