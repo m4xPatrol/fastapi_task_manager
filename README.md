@@ -8,6 +8,7 @@ Task Manager FastAPI is a simple task management API built using FastAPI + Postg
 * Custom logger
 * Asynchronous routes
 * Asynchronous database access (asyncpg)
+* Alembic database migrations
 * Easy to installation (poetry)
 
 ## Getting started
