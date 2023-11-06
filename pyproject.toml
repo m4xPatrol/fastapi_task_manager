@@ -26,6 +26,7 @@ bcrypt = "^4.0.1"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 asyncpg = "^0.28.0"
 pydantic = {extras = ["email"], version = "^2.4.2"}
+alembic = "^1.12.1"
 
 
 [tool.poetry.group.test.dependencies]
