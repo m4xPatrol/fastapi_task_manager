@@ -6,10 +6,12 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.schemas.task import TaskCreate, TaskResponse, TaskUpdate
+from app.api.dependencies.websocket import ws_manager
 from app.core.jwt import get_user_by_token
 from app.db.crud.task import task_crud
 from app.db.crud.user import user_crud
 from app.db.database import get_session
+from app.api.schemas.websocket import WebSocketResponse
 
 router = APIRouter()
 
@@ -18,17 +20,15 @@ active_connections: list[WebSocket] = []
 
 @router.websocket("/ws/tasks/{client_id}")
 async def websocket_endpoint(client_id: int, websocket: WebSocket) -> None:
-    await websocket.accept()
-    active_connections.append(websocket)
+    await ws_manager.connect(websocket)
 
     try:
         while True:
-            message = await websocket.receive_text()
-            for connection in active_connections:
-                await connection.send_text(f"Client: {client_id} Message: {message}!")
-
+            response: WebSocketResponse = await ws_manager.get_message(websocket)
+            print(f"Response: {response}")
+            await ws_manager.broadcast(response)
     except WebSocketDisconnect:
-        active_connections.remove(websocket)
+        ws_manager.disconnect(websocket)
 
 
 @router.post("/tasks", response_model=TaskResponse)
@@ -41,8 +41,9 @@ async def create_task(
     task_db = await task_crud.add_task(db, task, user_db.id)
 
     try:
-        for connection in active_connections:
-            await connection.send_text(f"New task created: {task_db.title}")
+        await ws_manager.broadcast(
+            WebSocketResponse(message=f"New task created: {task_db.title}")
+        )
         return task_db
 
     except IntegrityError:
@@ -83,8 +84,9 @@ async def update_task(
         )
 
     try:
-        for connection in active_connections:
-            await connection.send_text(f"Task {db_task.id} updated")
+        await ws_manager.broadcast(
+            WebSocketResponse(message=f"Task {db_task.id} updated")
+        )
         return db_task
 
     except IntegrityError:
@@ -103,8 +105,7 @@ async def delete_task(
         )
 
     try:
-        for connection in active_connections:
-            await connection.send_text(f"Task {task.id} deleted")
+        await ws_manager.broadcast(WebSocketResponse(message=f"Task {task.id} deleted"))
         return task
 
     except IntegrityError:
