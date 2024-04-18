@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+        context: .
+    env_file:
+        - docker.env
+    container_name: fastapi_task_manager
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    command: ["poetry", "run", "python", "main.py"]
+
+  db:
+      image: postgres:16
+      container_name: db_app
+      env_file:
+        - docker.env
+      expose:
+        - 5432
