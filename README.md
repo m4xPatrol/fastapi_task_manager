@@ -9,16 +9,34 @@ Task Manager FastAPI is a simple task management API built using FastAPI + Postg
 * Asynchronous routes
 * Asynchronous database access (asyncpg)
 * Alembic database migrations
+* Clean code (black + ruff + pre-commit-hooks)
 * Easy to installation (poetry)
+* Add Docker support
 
 ## Getting started
-### Prerequisites
+### 1. Docker
+1. Clone the repository
+
+   ```bash
+   git clone https://github.com/m4xPatrol/fastapi_task_manager.git
+   cd task_manager_fastapi
+   ```
+   
+2. Up!
+    ```bash
+   docker compse build
+   docker compose up
+   ```
+
+Go to [http://127.0.0.1:8000](http://127.0.0.1:8000).
+### 2. Deploying from source code
+##### Prerequisites
 Before running the application, make sure you have the following prerequisites installed:
 
 * Python 3.11
 * PostgreSQL
 
-### Installation
+##### Installation
 1. Clone the repository
 
    ```bash
@@ -33,7 +51,7 @@ Before running the application, make sure you have the following prerequisites i
    poetry install
    ```
 
-## Usage
+#### Usage
 ### Running the Application
 
 To run the FastAPI application locally, use the following command:
